@@ -4,9 +4,12 @@ import jp.ac.itcollege.std.s23016.book.manager.domain.model.BookWithRental
 import jp.ac.itcollege.std.s23016.book.manager.domain.model.Rental
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GetBookListResponse(val bookList: List<BookInfo>)
 
+@Serializable
 data class BookInfo(
     val id: Long,
     val title: String,
@@ -21,6 +24,7 @@ data class BookInfo(
     )
 }
 
+@Serializable
 data class GetBookDetailResponse(
     val id: Long,
     val title: String,
@@ -37,7 +41,7 @@ data class GetBookDetailResponse(
     )
 }
 
-
+@Serializable
 data class RentalInfo(
     val userId: Long,
     val rentalDateTime: LocalDateTime,
@@ -49,3 +53,19 @@ data class RentalInfo(
         model.returnDeadline
     )
 }
+
+@Serializable
+data class RegisterBookRequest(
+    val id: Long,
+    val title: String,
+    val author: String,
+    val releaseDate: LocalDate,
+)
+
+@Serializable
+data class UpdateBookRequest(
+    val id: Long,
+    val title: String?,
+    val author: String?,
+    val releaseDate: LocalDate?,
+)
