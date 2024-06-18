@@ -36,4 +36,19 @@ class RentalService (
 
         rentalRepository.startRental(rental)
     }
+
+    @Transactional
+    fun endRental(bookId: Long, userId: Long) {
+        userRepository.find(userId)
+            ?: throw RentalStateException("該当するユーザがいません")
+        val book = bookRepository.findWithRental(bookId)
+            ?: throw RentalStateException("該当する書籍がありません")
+        if (!book.isRental) {
+            throw RentalStateException("貸し出しされていません")
+        }
+        if (book.rental?.userId != userId) {
+            throw RentalStateException("他のユーザが借りている書籍です")
+        }
+        rentalRepository.endRental(bookId)
+    }
 }

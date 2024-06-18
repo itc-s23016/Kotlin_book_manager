@@ -1,10 +1,10 @@
 package jp.ac.itcollege.std.s23016.book.manager.infrastructure.database.repository
 
-import jp.ac.itcollege.std.s23016.book.manager.application.service.security.RentalService
 import jp.ac.itcollege.std.s23016.book.manager.domain.model.Rental
 import jp.ac.itcollege.std.s23016.book.manager.domain.repository.RentalRepository
 import jp.ac.itcollege.std.s23016.book.manager.infrastructure.database.dao.BookEntity
 import jp.ac.itcollege.std.s23016.book.manager.infrastructure.database.dao.RentalEntity
+import jp.ac.itcollege.std.s23016.book.manager.infrastructure.database.dao.RentalTable
 import jp.ac.itcollege.std.s23016.book.manager.infrastructure.database.dao.UserEntity
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Repository
@@ -24,6 +24,14 @@ class RentalRepositoryImpl : RentalRepository {
                 rentalDateTime = rental.rentalDateTime
                 returnDeadline = rental.returnDeadline
             }
+        }
+    }
+
+    override fun endRental(bookId: Long) {
+        transaction {
+            RentalEntity.find {
+                RentalTable.book eq bookId
+            }.singleOrNull()?.delete()
         }
     }
 }

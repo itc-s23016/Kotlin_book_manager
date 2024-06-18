@@ -21,4 +21,12 @@ class RentalController (
     ) {
         rentalService.startRental(request.bookId, user.id)
     }
+
+    @DeleteMapping("end/{book_id}")
+    fun endRental(
+        @PathVariable("book_id") bookId: Long,
+        @AuthenticationPrincipal user: BookManagerUserDetailsService.BookManagerUserDetails
+    ) {
+        rentalService.endRental(bookId, user.id)
+    }
 }
